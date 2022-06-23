@@ -21,6 +21,8 @@ public class Department extends BaseEntity {
     private String description;
     @Column(name = "latitude")
     private BigDecimal latitude;
+    @Column(name = "longitude")
+    private BigDecimal longitude;
 
     public BigDecimal getLatitude() {
         return this.latitude;
@@ -38,15 +40,14 @@ public class Department extends BaseEntity {
         this.longitude = longitude;
     }
 
-    @Column(name = "longitude")
-    private BigDecimal longitude;
-
     public Department() {
         super();
     }
 
-    public Department(String name, String description) {
+    public Department(String name, String description, BigDecimal latitude, BigDecimal longitude) {
         super();
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.name = name;
         this.description = description;
     }

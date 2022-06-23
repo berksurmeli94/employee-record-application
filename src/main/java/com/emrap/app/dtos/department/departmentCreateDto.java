@@ -7,10 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class departmentUpdateDto {
+public class departmentCreateDto {
 
-    @NotBlank(message = "The id is required.")
-    private Long id;
     @NotBlank(message = "The name is required.")
     @Size(min = 2, max = 100, message = "The length of name must be between 2 and 100 characters.")
     private String name;
@@ -22,18 +20,10 @@ public class departmentUpdateDto {
     @NotBlank(message = "The longitude is required.")
     private BigDecimal longitude;
 
-    public Long getId() {
-        return this.id;
+    public departmentCreateDto() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public departmentUpdateDto() {
-    }
-
-    public departmentUpdateDto(String name, String description, BigDecimal latitude, BigDecimal longitude) {
+    public departmentCreateDto(String name, String description, BigDecimal latitude, BigDecimal longitude) {
 
         this.name = name;
         this.description = description;

@@ -1,7 +1,9 @@
 package com.emrap.app.domain.repository.department;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import com.emrap.app.core.utilities.results.FilterResult;
@@ -9,10 +11,8 @@ import com.emrap.app.entities.Department;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 @Repository
 public class DepartmentRepositoryImpl implements ExtendedDepartmentRepository {
@@ -20,9 +20,9 @@ public class DepartmentRepositoryImpl implements ExtendedDepartmentRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Async
     @Override
     public FilterResult<List<Department>> getAllWithPagination(int pageNumber, int pageSize) {
-
         var query = entityManager.createQuery(
                 "select d from Department d order by d.startDate desc offset :pageSize * :pageNumber ROWS fetch next :pageSize only",
                 Department.class);
@@ -42,8 +42,9 @@ public class DepartmentRepositoryImpl implements ExtendedDepartmentRepository {
         return result;
     }
 
+    @Async
     @Override
-    public int updateOfficeLocation(long departmentId, Double latitude, Double longitude) {
+    public int updateOfficeLocation(long departmentId, BigDecimal latitude, BigDecimal longitude) {
         var query = entityManager.createQuery(
                 "update Department d set d.latitude = :latitude, d.longitude = :longitude where d.id = :departmentId");
         query.setParameter("latitude", latitude);
