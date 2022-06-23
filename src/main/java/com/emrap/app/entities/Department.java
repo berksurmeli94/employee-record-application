@@ -1,5 +1,7 @@
 package com.emrap.app.entities;
 
+import java.math.BigDecimal;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -17,6 +19,27 @@ public class Department extends BaseEntity {
     private String name;
     @Column(name = "description", length = 100)
     private String description;
+    @Column(name = "latitude")
+    private BigDecimal latitude;
+
+    public BigDecimal getLatitude() {
+        return this.latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return this.longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    @Column(name = "longitude")
+    private BigDecimal longitude;
 
     public Department() {
         super();
@@ -47,9 +70,11 @@ public class Department extends BaseEntity {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
+                " name='" + getName() + "'" +
                 ", description='" + getDescription() + "'" +
+                ", latitude='" + getLatitude() + "'" +
+                ", longitude='" + getLongitude() + "'" +
                 "}";
     }
+
 }

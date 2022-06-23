@@ -1,5 +1,8 @@
 package com.emrap.app.entities;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -24,6 +27,20 @@ public class Employee extends BaseEntity {
     private String email;
     @Column(name = "password", length = 50)
     private String password;
+    @Column(name = "startDate")
+    private Date startDate;
+    @Column(name = "lastPrizeWinDate")
+    private Date lastPrizeWinDate;
+    @Column(name = "salary")
+    private BigDecimal salary;
+
+    public Date getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     public Employee() {
     }
@@ -86,6 +103,14 @@ public class Employee extends BaseEntity {
         this.password = password;
     }
 
+    public BigDecimal getSalary() {
+        return this.salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -95,7 +120,7 @@ public class Employee extends BaseEntity {
                 ", phoneNumber='" + getPhoneNumber() + "'" +
                 ", email='" + getEmail() + "'" +
                 ", password='" + getPassword() + "'" +
+                ", salary='" + getSalary() + "'" +
                 "}";
     }
-
 }
