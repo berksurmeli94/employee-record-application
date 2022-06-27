@@ -5,16 +5,18 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Repository;
 
-import com.emrap.app.core.utilities.results.FilterResult;
+import com.emrap.app.core.utilities.result.FilterResult;
 import com.emrap.app.entities.Employee;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
-public class EmployeeRepositoryImpl implements ExtendedEmployeeRepository {
+@Repository
+public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -50,6 +52,7 @@ public class EmployeeRepositoryImpl implements ExtendedEmployeeRepository {
     @Override
     @Async
     public Employee callWinner() {
+
         var query = entityManager.createQuery("select top 1 e from Employee e order by e.lastPrizeWinDate desc",
                 Employee.class);
 
@@ -80,6 +83,65 @@ public class EmployeeRepositoryImpl implements ExtendedEmployeeRepository {
         result.setCurrentPage(pageNumber);
 
         return result;
+    }
+
+    @Override
+    public Employee findById(Long id) {
+
+        return entityManager.find(Employee.class, id);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(entityManager.find(Employee.class, id));
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean save(Employee entity) {
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(entity);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean checkIfEmailExist(String Email) {
+
+        var query = entityManager.createQuery("select e from Employee e where e.email = :email", Employee.class);
+        query.setParameter("email", Email);
+
+        var result = query.getResultList();
+
+        return result.size() > 0;
+    }
+
+    @Override
+    public boolean checkIfPhoneNumberExist(String PhoneNumber) {
+
+        var query = entityManager.createQuery("select e from Employee e where e.phoneNumber = :phoneNumber",
+                Employee.class);
+        query.setParameter("phoneNumber", PhoneNumber);
+
+        var result = query.getResultList();
+
+        return result.size() > 0;
     }
 
 }

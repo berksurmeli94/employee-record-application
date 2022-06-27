@@ -1,4 +1,4 @@
-package com.emrap.app.core.utilities.results;
+package com.emrap.app.core.utilities.result;
 
 public class FilterResult<T> {
 

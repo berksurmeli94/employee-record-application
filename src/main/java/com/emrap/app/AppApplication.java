@@ -5,12 +5,13 @@ import org.jobrunr.scheduling.cron.Cron;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.emrap.app.background.jobrunr.service.PickWinnerJobService;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
-@EnableAsync
+@EnableSwagger2
 public class AppApplication {
 
 	@Autowired
